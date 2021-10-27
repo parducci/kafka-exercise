@@ -55,3 +55,32 @@ resource "google_compute_instance" "kafka-node" {
 
   count = "${var.instance_count}"
 }
+
+resource "null_resource" "kafka-data-mount" {
+
+  depends_on = ["google_compute_instance.kafka-node", "google_compute_disk.kafka-disk"]
+
+  connection {
+        agent = false
+        user = "${var.kafka_user}"
+        private_key = "${file(var.kafka_privkey)}"
+        timeout = "2m"
+        host = "${element(google_compute_instance.kafka-node.*.network_interface.0.network_ip, count.index)}"
+        bastion_host = "${google_compute_address.bastion_public_ip.address}"
+        bastion_user = "${var.kafka_user}"
+        bastion_private_key = "${file(var.kafka_privkey)}"
+   }
+
+  provisioner "file" {
+    source      = "scripts/kafka_disk_mount.sh"
+    destination = "/tmp/kafka_disk_mount.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/kafka_disk_mount.sh",
+      "sudo /tmp/kafka_disk_mount.sh",
+    ]
+  }
+  count = "${var.instance_count}"
+}
