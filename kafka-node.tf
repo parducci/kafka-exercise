@@ -15,7 +15,7 @@ resource "google_compute_instance" "kafka-node" {
   zone         = "${google_compute_subnetwork.subnet_kafka.region}-b"
   machine_type = "${var.gce_machine_type["kafka"]}"
 
-  depends_on = ["google_compute_instance.bastion"]
+  depends_on = [google_compute_instance.bastion]
   deletion_protection = false
   lifecycle {
     prevent_destroy = false
@@ -42,7 +42,7 @@ resource "google_compute_instance" "kafka-node" {
     subnetwork = "${google_compute_subnetwork.subnet_kafka.self_link}"
   }
 
-  metadata {
+  metadata = {
     ssh-keys = "${var.kafka_user}:${file(var.kafka_pubkey)}"
   }
 
@@ -58,7 +58,7 @@ resource "google_compute_instance" "kafka-node" {
 
 resource "null_resource" "kafka-data-mount" {
 
-  depends_on = ["google_compute_instance.kafka-node", "google_compute_disk.kafka-disk"]
+  depends_on = [google_compute_instance.kafka-node, google_compute_disk.kafka-disk]
 
   connection {
         agent = false

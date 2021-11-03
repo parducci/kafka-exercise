@@ -5,7 +5,7 @@ variable "gcp_region"           { default = "us-west1" }
 variable "gcp_storage_region"   { default = "us"}
 
 variable "gcp_project_services" {
-  type    = "list"
+  type    = list
   default = [
     # NAME                                    TITLE
     "compute.googleapis.com",              # Google Compute Engine API
@@ -23,7 +23,7 @@ variable "gcp_project_services" {
 # Network variables
 
 variable "subnet_cidr" {
-  type    = "map"
+  type    = map
   default = {
     "public_subnet"  = "10.0.10.0/24"
     "kafka" = "10.0.11.0/24"
@@ -33,7 +33,7 @@ variable "subnet_cidr" {
 variable "source_ext_cidr" {}
 
 variable "instance_hostname" {
-  type = "map"
+  type = map
   default = {
     "bastion"          = "bastion"
     "kafka"            = "kafka"
@@ -42,7 +42,7 @@ variable "instance_hostname" {
 
 # GCE details
 variable "gce_machine_type" {
-  type = "map"
+  type = map
   default = {
     "bastion"          = "n1-standard-1"
     "kafka"            = "n1-standard-1"
@@ -50,7 +50,7 @@ variable "gce_machine_type" {
 }
 
 variable "gce_image_name" {
-  type = "map"
+  type = map
   default = {
     "bastion"          = "centos-cloud/centos-7"
     "kafka"            = "centos-cloud/centos-7"
@@ -58,7 +58,7 @@ variable "gce_image_name" {
 }
 
 variable "kafka_disk" {
-  type    = "map"
+  type    = map
   default = {
     "type"          = "pd-standard"
     "size"          = "10"
@@ -66,7 +66,7 @@ variable "kafka_disk" {
 }
 
 variable "os_disk_size" {
-  type = "map"
+  type = map
   default = {
     "bastion"          = "20"
     "kafka"            = "20"
@@ -74,7 +74,7 @@ variable "os_disk_size" {
 }
 
 variable "ip_addr" {
-  type = "map"
+  type = map
   default = {
     "bastion"      = "10.0.10.2"
   }

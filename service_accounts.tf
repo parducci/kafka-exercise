@@ -1,7 +1,7 @@
 # Service Accounts
 resource "google_service_account" "nat_gateway" {
   depends_on = [
-    "google_project_service.gcp_project",
+    google_project_service.gcp_project,
   ]
 
   account_id   = "nat-gateway"
@@ -10,7 +10,7 @@ resource "google_service_account" "nat_gateway" {
 
 resource "google_service_account" "bastion_account" {
   depends_on = [
-    "google_project_service.gcp_project",
+    google_project_service.gcp_project,
   ]
 
   account_id   = "bastionaccount"
@@ -19,7 +19,7 @@ resource "google_service_account" "bastion_account" {
 
 resource "google_service_account" "kafka_account" {
   depends_on = [
-    "google_project_service.gcp_project",
+    google_project_service.gcp_project,
   ]
 
   account_id   = "kafkaaccount"

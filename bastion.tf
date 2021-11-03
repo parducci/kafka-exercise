@@ -61,7 +61,7 @@ resource "google_compute_instance" "bastion" {
     }
   }
 
-  metadata {
+  metadata = {
     ssh-keys = "${var.kafka_user}:${file(var.kafka_pubkey)}"
   }
 
