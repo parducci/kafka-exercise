@@ -45,7 +45,7 @@ variable "gce_machine_type" {
   type = map
   default = {
     "bastion"          = "n1-standard-1"
-    "kafka"            = "n1-standard-1"
+    "kafka"            = "n2-standard-4"
   }
 }
 

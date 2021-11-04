@@ -4,14 +4,36 @@ resource "null_resource" "kafkanode_host_file_run" {
   depends_on = [google_compute_instance.kafka-node]
 
   provisioner "local-exec" {
-    command =  "echo \"[broker]\" > /tmp/inventory.txt"
+    command =  "echo \"[kafka_broker]\" > /tmp/inventory_kafka.txt"
   }
 
   provisioner "local-exec" {
-    command = "echo ${element(google_compute_instance.kafka-node.*.name, count.index)} ansible_ssh_host=${element(google_compute_instance.kafka-node.*.network_interface.0.network_ip, count.index)} ansible_ssh_port=22 ansible_ssh_user=${var.kafka_user} >> /tmp/inventory.txt&"
+    command = "echo ${element(google_compute_instance.kafka-node.*.name, count.index)} ansible_ssh_host=${element(google_compute_instance.kafka-node.*.network_interface.0.network_ip, count.index)} ansible_ssh_port=22 ansible_ssh_user=${var.kafka_user} broker_id=${count.index} >> /tmp/inventory_kafka.txt&"
 
   }
   count = "${var.instance_count}"
+}
+
+resource "null_resource" "zookeeper_host_file_run" {
+
+  depends_on = [google_compute_instance.kafka-node]
+
+  provisioner "local-exec" {
+    command =  "echo \"[zookeeper]\" > /tmp/inventory_zookeeper.txt"
+  }
+
+  provisioner "local-exec" {
+    command = "echo ${element(google_compute_instance.kafka-node.*.name, count.index)} ansible_ssh_host=${element(google_compute_instance.kafka-node.*.network_interface.0.network_ip, count.index)} ansible_ssh_port=22 ansible_ssh_user=${var.kafka_user} >> /tmp/inventory_zookeeper.txt&"
+
+  }
+  count = "${var.instance_count}"
+}
+
+resource "null_resource" "combine_inventory" {
+  depends_on = [null_resource.kafkanode_host_file_run, null_resource.zookeeper_host_file_run]
+  provisioner "local-exec" {
+    command =  "cat /tmp/inventory_kafka.txt /tmp/inventory_zookeeper.txt > /tmp/inventory.txt && rm /tmp/inventory_kafka.txt /tmp/inventory_zookeeper.txt"
+  }
 }
 
 # Bastion initialization
