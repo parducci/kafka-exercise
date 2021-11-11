@@ -29,7 +29,7 @@ if [ "${DEVICES}" ]; then
           mkdir -p $MOUNTDIR
         fi
         mount ${DEVICEPATH} ${MOUNTDIR}
-        chmod 700 ${MOUNTDIR}
+        chmod 775 ${MOUNTDIR}
         let COUNT++
       fi
     done
