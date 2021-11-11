@@ -32,8 +32,17 @@ resource "null_resource" "zookeeper_host_file_run" {
 resource "null_resource" "combine_inventory" {
   depends_on = [null_resource.kafkanode_host_file_run, null_resource.zookeeper_host_file_run]
   provisioner "local-exec" {
-    command =  "cat /tmp/inventory_kafka.txt /tmp/inventory_zookeeper.txt > /tmp/inventory.txt && rm /tmp/inventory_kafka.txt /tmp/inventory_zookeeper.txt"
+    command = "echo \"[all:vars]\" > /tmp/inventory.txt"
   }
+
+  provisioner "local-exec" {
+    command = "echo \"ansible_user=${var.kafka_user}\" >> /tmp/inventory.txt&"
+  }
+
+  provisioner "local-exec" {
+    command =  "cat /tmp/inventory_kafka.txt /tmp/inventory_zookeeper.txt >> /tmp/inventory.txt && rm /tmp/inventory_kafka.txt /tmp/inventory_zookeeper.txt"
+  }
+
 }
 
 # Bastion initialization

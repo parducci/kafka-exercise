@@ -2,3 +2,4 @@
 ansible_connection: ssh
 ansible_become: true
 confluent_server_enabled: false
+installation_method: archive
