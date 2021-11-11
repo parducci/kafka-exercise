@@ -65,7 +65,7 @@ resource "null_resource" "broker_initialization" {
   provisioner "remote-exec" {
     inline = [
     "sudo yum install epel-release -y",
-    "sudo yum install ansible-2.4.2.0-2.el7 python-pip -y",
+    "sudo yum install ansible-2.9.25-1.el7 python-pip -y",
     "sudo yum install git gcc -y",
     "sudo echo -e 'StrictHostKeyChecking no\n' >> ~/.ssh/config; sudo chmod 600 ~/.ssh/config",
     "sudo chmod 600 ~/.ssh/ssh_key",
