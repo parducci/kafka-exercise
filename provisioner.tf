@@ -83,14 +83,11 @@ resource "null_resource" "broker_initialization" {
     "sudo yum install git gcc -y",
     "sudo echo -e 'StrictHostKeyChecking no\n' >> ~/.ssh/config; sudo chmod 600 ~/.ssh/config",
     "sudo chmod 600 ~/.ssh/ssh_key",
-    "sudo chmod -R 775 /data && sudo chown ${var.kafka_user} /data",
     "cd ~ && git clone https://github.com/confluentinc/cp-ansible && cd cp-ansible && git checkout ${var.cp_ansible_version}",
     "cp -rp /tmp/inventory.txt hosts",
     "mkdir group_vars && cp -rp /tmp/ansible_configs/* group_vars",
     "ansible -i hosts all -m ping",
-#    "git clone https://github.com/parducci/ansible-exercise.git ansible-exercise",
-#    "cp /tmp/inventory.txt ansible-exercise/hosts"
-#    "sleep 10 && cd ansible-exercise && ansible-playbook -vvv -i hosts --private-key ~/.ssh/ssh_key site.yml",
+    "ansible-playbook -i hosts all.yml"
     ]
   }
 
