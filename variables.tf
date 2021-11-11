@@ -86,4 +86,4 @@ variable "kafka_user"    { default = "kafka" }
 variable "kafka_pubkey"  {}
 variable "kafka_privkey" {}
 
-variable "cp_ansible_version" {}
+variable "cp_ansible_version" { default = "6.2.1-post" }
