@@ -85,3 +85,5 @@ variable "instance_count" { default = "3" }
 variable "kafka_user"    { default = "kafka" }
 variable "kafka_pubkey"  {}
 variable "kafka_privkey" {}
+
+variable "cp_ansible_version" {}

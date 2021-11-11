@@ -1,0 +1,5 @@
+---
+kafka_broker_user: kafka
+kafka_broker_log_dir: /data/kafka
+kafka_broker_custom_properties:
+ log.dirs: /data/kafka
