@@ -84,10 +84,10 @@ resource "null_resource" "broker_initialization" {
     "sudo echo -e 'StrictHostKeyChecking no\n' >> ~/.ssh/config; sudo chmod 600 ~/.ssh/config",
     "sudo chmod 600 ~/.ssh/ssh_key",
     "cd ~ && git clone https://github.com/confluentinc/cp-ansible && cd cp-ansible && git checkout ${var.cp_ansible_version}",
-    "cp -rp /tmp/inventory.txt hosts",
-    "mkdir group_vars && cp -rp /tmp/ansible_configs/* group_vars",
-    "ansible -i hosts all -m ping",
-    "ansible-playbook -i hosts all.yml"
+    "cd ~ && cd cp-ansible && cp -rp /tmp/inventory.txt hosts",
+    "cd ~ && cd cp-ansible && mkdir group_vars && cp -rp /tmp/ansible_configs/* group_vars",
+    "cd ~ && cd cp-ansible && ansible -i hosts all -m ping",
+    "cd ~ && cd cp-ansible && ansible-playbook -i hosts all.yml"
     ]
   }
 
