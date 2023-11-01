@@ -52,8 +52,8 @@ variable "gce_machine_type" {
 variable "gce_image_name" {
   type = map
   default = {
-    "bastion"          = "centos-cloud/centos-7"
-    "kafka"            = "centos-cloud/centos-7"
+    "bastion"          = "centos-cloud/centos-stream-8-v20231010"
+    "kafka"            = "centos-cloud/centos-stream-8-v20231010"
   }
 }
 
@@ -86,4 +86,4 @@ variable "kafka_user"    { default = "kafka" }
 variable "kafka_pubkey"  {}
 variable "kafka_privkey" {}
 
-variable "cp_ansible_version" { default = "6.2.1-post" }
+variable "kafka_confluent_version" { default = "7.3.3" }

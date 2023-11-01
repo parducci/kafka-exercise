@@ -73,21 +73,23 @@ resource "null_resource" "broker_initialization" {
 
    provisioner "file" {
     source      = "${var.kafka_privkey}"
-    destination = "~/.ssh/ssh_key"
+    destination = "/home/${var.kafka_user}/.ssh/id_rsa"
   }
 
   provisioner "remote-exec" {
     inline = [
     "sudo yum install epel-release -y",
-    "sudo yum install ansible-2.9.25-1.el7 python-pip -y",
+    "sudo yum install ansible python3-pip -y",
     "sudo yum install git gcc -y",
     "sudo echo -e 'StrictHostKeyChecking no\n' >> ~/.ssh/config; sudo chmod 600 ~/.ssh/config",
-    "sudo chmod 600 ~/.ssh/ssh_key",
-    "cd ~ && git clone https://github.com/confluentinc/cp-ansible && cd cp-ansible && git checkout ${var.cp_ansible_version}",
+    "sudo chmod 600 ~/.ssh/id_rsa",
+    "cd ~ && mkdir cp-ansible",
     "cd ~ && cd cp-ansible && cp -rp /tmp/inventory.txt hosts",
     "cd ~ && cd cp-ansible && mkdir group_vars && cp -rp /tmp/ansible_configs/* group_vars",
     "cd ~ && cd cp-ansible && ansible -i hosts all -m ping",
-    "cd ~ && cd cp-ansible && ansible-playbook -i hosts all.yml"
+    "ansible-galaxy collection install confluent.platform:${kafka_confluent_version}",
+    "ansible-playbook -i cp-ansible/hosts confluent.platform.validate_hosts",
+    "ansible-playbook -i cp-ansible/hosts confluent.platform.all --skip-tags validate_hash_merge",
     ]
   }
 
