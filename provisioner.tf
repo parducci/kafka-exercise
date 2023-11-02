@@ -87,7 +87,7 @@ resource "null_resource" "broker_initialization" {
     "cd ~ && cd cp-ansible && cp -rp /tmp/inventory.txt hosts",
     "cd ~ && cd cp-ansible && mkdir group_vars && cp -rp /tmp/ansible_configs/* group_vars",
     "cd ~ && cd cp-ansible && ansible -i hosts all -m ping",
-    "ansible-galaxy collection install confluent.platform:${kafka_confluent_version}",
+    "ansible-galaxy collection install confluent.platform:${var.kafka_confluent_version}",
     "ansible-playbook -i cp-ansible/hosts confluent.platform.validate_hosts",
     "ansible-playbook -i cp-ansible/hosts confluent.platform.all --skip-tags validate_hash_merge",
     ]
