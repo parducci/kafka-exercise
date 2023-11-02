@@ -68,7 +68,7 @@ resource "google_compute_firewall" "allow_all_internal" {
     "${var.subnet_cidr["kafka"]}"
   ]
 
-  target_tags = ["kafka-nodes"]
+  target_tags = ["kafka-nodes", "vault-nodes"]
 }
 
 resource "google_compute_firewall" "kafka_allow_all_egress" {
@@ -92,7 +92,7 @@ resource "google_compute_firewall" "kafka_allow_all_egress" {
     protocol = "icmp"
   }
 
-  target_tags = ["kafka-nodes"]
+  target_tags = ["kafka-nodes", "vault-nodes"]
 }
 
 resource "google_compute_firewall" "kafka_allow_ssh_ingress" {
@@ -117,5 +117,5 @@ resource "google_compute_firewall" "kafka_allow_ssh_ingress" {
     "${google_compute_subnetwork.subnet_kafka.ip_cidr_range}"
   ]
 
-  target_tags = ["kafka-nodes"]
+  target_tags = ["kafka-nodes", "vault-nodes"]
 }

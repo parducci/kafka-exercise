@@ -46,6 +46,7 @@ variable "gce_machine_type" {
   default = {
     "bastion"          = "n1-standard-1"
     "kafka"            = "n2-standard-4"
+    "vault"            = "n1-standard-1"
   }
 }
 
@@ -54,6 +55,7 @@ variable "gce_image_name" {
   default = {
     "bastion"          = "centos-cloud/centos-stream-8-v20231010"
     "kafka"            = "centos-cloud/centos-stream-8-v20231010"
+    "vault"            = "centos-cloud/centos-stream-8-v20231010"
   }
 }
 
@@ -65,11 +67,20 @@ variable "kafka_disk" {
   }
 }
 
+variable "vault_disk" {
+  type    = map
+  default = {
+     "type"          = "pd-standard"
+     "size"          = "2"
+  }
+}
+
 variable "os_disk_size" {
   type = map
   default = {
     "bastion"          = "20"
     "kafka"            = "20"
+    "vault"            = "20"
   }
 }
 
@@ -81,6 +92,7 @@ variable "ip_addr" {
 }
 
 variable "instance_count" { default = "3" }
+variable "vault_instance_count" { default = "1" }
 
 variable "kafka_user"    { default = "kafka" }
 variable "kafka_pubkey"  {}
